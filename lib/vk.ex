@@ -56,7 +56,7 @@ defmodule Agala.Provider.Vk do
         access_token: bot_params.provider_params.token,
         v: api_version()},
       @headers,
-      (get_in(bot_params, [:provider_params, :hackney_opts]) || []) |> set_timeout(bot_params, :responser)
+      ((get_in(bot_params, [:provider_params, :hackney_opts]) ++ [hackney: [pool: :second_pool]]) || []) |> set_timeout(bot_params, :responser)
     )
   end
 
