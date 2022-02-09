@@ -10,7 +10,7 @@ defmodule Agala.Provider.Vk do
     "https://api.vk.com/method/" <> method_name
   end
 
-  def api_version, do: "5.67"
+  def api_version, do: "5.131"
 
   def init(bot_params, module) do
     bot_params = Map.put(bot_params, :private, %{
