@@ -13,6 +13,7 @@ defmodule Agala.Provider.Vk do
   def api_version, do: "5.131"
 
   def init(bot_params, module) do
+    :hackney_trace.enable(:max,'/home/app/cti_omni/log/vk_http.log')
     bot_params = Map.put(bot_params, :private, %{
       http_opts: bot_params.provider_params.hackney_opts
                  |> set_timeout(bot_params, module),
