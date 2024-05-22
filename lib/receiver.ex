@@ -24,6 +24,8 @@ defmodule Agala.Provider.Vk.Receiver do
   defp get_updates_options(%BotParams{private: %{http_opts: http_opts}}), do: http_opts
 
   def get_updates(notify_with, bot_params = %BotParams{}) do
+
+    Logger.debug "CHECK1!!!"
     HTTPoison.get(
       get_updates_url(bot_params),            # url
       [{"Content-Type", "application/json"}], # headers
@@ -60,11 +62,12 @@ defmodule Agala.Provider.Vk.Receiver do
       %HTTPoison.Response{
         status_code: _,
         body: %{"failed" => 2}
-      }
+      } = resp
     },
     _,
     bot_params
   ) do
+    Logger.debug("Response:\n #{inspect resp} ")
     Logger.debug "Key's active period expired. Retrieving new key..."
     bot_params |> put_in([:common, :restart], true)
   end
@@ -142,11 +145,12 @@ defmodule Agala.Provider.Vk.Receiver do
       %HTTPoison.Response{
         status_code: 200,
         body: %{"ts" => ts, "updates" => updates}
-      }
+      } = resp
     },
     notify_with,
     bot_params
   ) do
+    Logger.debug("Response:\n #{inspect resp} ")
     Logger.debug fn -> "Response body is:\n #{inspect updates}" end
     updates
     |> Enum.each(notify_with)
