@@ -21,7 +21,7 @@ defmodule Agala.Provider.Vk.Helpers.Messages do
       method: :post,
       payload: %{
         endpoint: "messages.send",
-        body: create_body(params, user_id: user_id, random_id: random_id(user_id)),
+        body: create_body(params, user_id: user_id, random_id: random_id()),
         headers: @headers
       }
     })
