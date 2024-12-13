@@ -3,6 +3,7 @@ defmodule Agala.Provider.Vk.Helpers.Common do
     quote location: :keep do
       @headers [{"Content-Type", "application/json"}]
       @multipart_headers [{"Content-Type", "multipart/form-data"}]
+      @int32 2147483647
 
       def send_file_to_url(url, params, opts \\ %{}) do
         HTTPoison.post(
@@ -28,17 +29,7 @@ defmodule Agala.Provider.Vk.Helpers.Common do
         {:multipart, multipart}
       end
 
-      defp random_id(user_id) do
-        :erlang.term_to_binary({
-          user_id,
-          DateTime.utc_now
-        })
-        |> :erlang.md5
-        |> Base.encode16
-        |> String.replace(~r/[ABCDEF]/, "")
-        |> Integer.parse
-        |> elem(0)
-      end
+      defp random_id(), do: :rand.uniform(@int32)
     end
   end
 end
