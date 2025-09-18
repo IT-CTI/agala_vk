@@ -6,8 +6,9 @@ defmodule Agala.Provider.Vk do
   """
   @headers [{"Content-Type", "application/json"}]
 
-  def base_url(method_name) do
-    "https://api.vk.com/method/" <> method_name
+  def base_url(bot_params, method_name) do
+    endpooint_url = get_in(bot_params, [:provider_params, :endpoint_url]) || "https://api.vk.ru/method/"
+    endpooint_url <> method_name
   end
 
   def api_version, do: "5.131"
@@ -48,7 +49,7 @@ defmodule Agala.Provider.Vk do
   def get_longpolling_server_params(bot_params) do
     HTTPoison.request(
       :post,
-      base_url("messages.getLongPollServer"),
+      base_url(bot_params, "messages.getLongPollServer"),
       {
         :form,
         need_pts: 1,

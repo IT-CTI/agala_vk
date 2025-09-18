@@ -19,8 +19,8 @@ defmodule Agala.Provider.Vk.Responser do
     end)
   end
 
-  defp create_url(%Agala.Conn{response: %{payload: %{endpoint: endpoint}}}) do
-    Agala.Provider.Vk.base_url(endpoint)
+  defp create_url(%Agala.Conn{response: %{payload: %{endpoint: endpoint}}}, bot_params) do
+    Agala.Provider.Vk.base_url(bot_params, endpoint)
   end
 
   @doc """
@@ -29,7 +29,7 @@ defmodule Agala.Provider.Vk.Responser do
   def response(conn, bot_params) do
     HTTPoison.request(
       conn.response.method,
-      create_url(conn),
+      create_url(conn, bot_params),
       create_body(conn, bot_params),
       get_in(conn, [:response, :payload, :headers]) || [],
       get_in(conn, [:response, :payload, :http_opts]) || get_in(bot_params, [:private, :http_opts]) || get_in(bot_params, [:provider_params, :hackney_opts]) || []
